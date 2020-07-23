@@ -13,6 +13,6 @@ setup(
     author_email='dvsamchuk@gmail.com',
     license='MIT',
     packages=find_packages(),
-    install_requires=[],
+    install_requires=['geopandas'],
     python_requires='>=3.5'
 )

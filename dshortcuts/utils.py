@@ -1,4 +1,5 @@
 import pickle
+import geopandas as gpd
 
 
 def open_pickle(path):
@@ -49,4 +50,30 @@ def save_pickle(obj, path):
     """
     with open(path, 'wb') as h:
         pickle.dump(obj, h, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+def geo_data_frame(dataframe, latCol, lonCol):
+    """
+    Makes a geopandas.GeoDataFrame given pandas.DataFrame
+    CRS is hardcoded to GPS (EPSG:4326)    
+
+    Parameters
+    ----------
+    dataframe : pandas dataframe
+    latCol : a NAME of a column which holds the lattitude in given dataframe
+    lonCol : a NAME of a column which holds the longtitude in given dataframe
+
+    Returns
+    -------
+    geopandas.GeoDataFrame
+    """
+    _geoDataFrame = gpd.GeoDataFrame(
+        dataframe, 
+        geometry=gpd.points_from_xy(dataframe[lonCol], dataframe[latCol]))
+
+
+    # Set the coordinate reference system (CRS)
+    _geoDataFrame.crs = {'init': 'epsg:4326'}
+
+    return _geoDataFrame
 
